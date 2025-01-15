@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Levenscyclusanalyse: HSB vs CLT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background: #4caf50;
+            color: #fff;
+            padding: 20px 10px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #4caf50;
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background: #4caf50;
+            color: white;
+        }
+        .chart-container {
+            margin: 30px 0;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background: #333;
+            color: #fff;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Levenscyclusanalyse voor de keuze tussen HSB en CLT</h1>
+    </header>
+    <div class="container">
+        <h2>Overzicht van de LCA</h2>
+        <p>Hieronder staat een levenscyclusanalyse van Houtskeletbouw (HSB) en Cross Laminated Timber (CLT) op meerdere milieu aspecten. De scores varieren op een schaal van 1 (laag) tot 10 (hoog).</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Milieu aspect</th>
+                    <th>Houtskeletbouw (HSB)</th>
+                    <th>Cross Laminated Timber (CLT)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>CO₂-opslag</td>
+                    <td>7</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>Grondstofgebruik</td>
+                    <td>8</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td>Recyclebaar</td>
+                    <td>9</td>
+                    <td>7</td>
+                </tr>
+                <tr>
+                    <td>Isolatie</td>
+                    <td>8</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>Bouwafval</td>
+                    <td>9</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>Ontwerpflexibiliteit</td>
+                    <td>8</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Kosten</td>
+                    <td>9</td>
+                    <td>6</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="chart-container">
+            <h2>Diagram: Vergelijking van Milieu-aspecten</h2>
+            <canvas id="lcaChart" width="600" height="400"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h2>Diagram: Gedetailleerde Analyse</h2>
+            <canvas id="detailedChart" width="600" height="400"></canvas>
+        </div>
+    </div>
+
+    <footer>
+        &copy; Maik Ippel, 1831995, Hogeschool Utrecht, Bloemen Architecten B.V..
+    </footer>
+
+    <script>
+        const ctx = document.getElementById('lcaChart').getContext('2d');
+        const lcaChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: [
+                    'CO₂-opslag',
+                    'Grondstofgebruik',
+                    'Recyclebaar',
+                    'Isolatie',
+                    'Bouwafval',
+                    'Ontwerpflexibiliteit',
+                    'Kosten'
+                ],
+                datasets: [
+                    {
+                        label: 'Houtskeletbouw (HSB)',
+                        data: [7, 8, 9, 8, 9, 8, 9],
+                        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                        borderColor: 'rgba(76, 175, 80, 1)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Cross Laminated Timber (CLT)',
+                        data: [9, 6, 7, 8, 8, 5, 6],
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 10
+                    }
+                }
+            }
+        });
+
+        const ctx2 = document.getElementById('detailedChart').getContext('2d');
+        const detailedChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'CO₂-opslag',
+                    'Grondstofgebruik',
+                    'Recyclebaar',
+                    'Isolatie',
+                    'Bouwafval',
+                    'Ontwerpflexibiliteit',
+                    'Kosten'
+                ],
+                datasets: [
+                    {
+                        label: 'Houtskeletbouw (HSB)',
+                        data: [7, 8, 9, 8, 9, 8, 9],
+                        backgroundColor: 'rgba(76, 175, 80, 0.8)'
+                    },
+                    {
+                        label: 'Cross Laminated Timber (CLT)',
+                        data: [9, 6, 7, 8, 8, 5, 6],
+                        backgroundColor: 'rgba(255, 99, 132, 0.8)'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
